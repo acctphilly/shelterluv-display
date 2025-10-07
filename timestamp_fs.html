@@ -5,6 +5,8 @@
     <script>
         function enterFullscreen() {
             document.querySelector("body").requestFullscreen();
+            var fsButton = document.getElementById('fullScreen');
+             fsButton.style.display = 'none';
         }
     </script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
@@ -17,7 +19,7 @@
 </head>
 <body>
 
-<button onclick="enterFullscreen()">Enter Fullscreen</button>
+<button onclick="enterFullscreen()" id="fullScreen">Enter Fullscreen</button>
 
 
 <div class="container h-100">
