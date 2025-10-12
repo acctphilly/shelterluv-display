@@ -31,7 +31,6 @@ async function fetchImageUrls() {
                               console.log("ADAM: " + Object.keys(images));
 
               for (const key of Object.keys(images)) {
-                console.log(image["isCover"]);
                 image = images[key];
                 if (image["isCover"]) {
                   console.log("has cover");
