@@ -27,7 +27,7 @@ async function fetchImageUrls() {
                   }
               
               })
-            } else if (typeof images === 'object' && images !== null && Object.hasOwn(images, "1")) {
+            } else if (typeof images === 'object' && images !== null) {
                               console.log("ADAM: " + Object.keys(images));
 
               for (const key of Object.keys(images)) {
