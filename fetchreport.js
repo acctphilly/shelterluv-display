@@ -13,24 +13,38 @@ async function fetchImageUrls() {
         console.log(slResponse["animals"]);
         let animals = slResponse["animals"];
         animals.forEach(animal => {
+            console.log("dog: " + JSON.stringify(animal));
             let dog = [];
             dog["name"] = animal["name"];
             dog["location"] = animal["location"];
             dog["id"] = animal["uniqueId"];
-
+            console.log("wtf");
             let images = animal["photos"];
             if (Array.isArray(images)) {
-            images.forEach(image => {
+              images.forEach(image => {
+                  if (image["isCover"]) {
+                      dog["imageUrl"] = image["url"];
+                  }
+              
+              })
+            } else if (typeof images === 'object' && images !== null && Object.hasOwn(images, "1")) {
+                              console.log("ADAM: " + Object.keys(images));
+
+              for (const key of Object.keys(images)) {
+                console.log(image["isCover"]);
+                image = images[key];
                 if (image["isCover"]) {
+                  console.log("has cover");
+                  console.log("image: " + image["url"]);
                     dog["imageUrl"] = image["url"];
                 }
-            
-            })
-
-            console.log(animal);
+              
+              }
+            }
+            console.log("dog: " + JSON.stringify(dog));
 
             dogs.push(dog);
-            }
+            
         });
         // You might need to adjust this based on your API's response structure
         // For example, if it returns an object with a 'data' array: imageUrls = data.data;
