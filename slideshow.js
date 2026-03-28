@@ -9,8 +9,22 @@ const DEFAULT_CONFIG = {
     pageTitle: 'Available Dogs' // Fallback title
 };
 
-// Merge defaults with user config
-const CONFIG = { ...DEFAULT_CONFIG, ...(window.SLIDESHOW_CONFIG || {}) };
+// Merge defaults with user config from window
+const BASE_CONFIG = { ...DEFAULT_CONFIG, ...(window.SLIDESHOW_CONFIG || {}) };
+
+// Override with URL parameters if present (converting seconds to ms)
+const urlParams = new URLSearchParams(window.location.search);
+const getParamInMs = (name, defaultValue) => {
+    const val = urlParams.get(name);
+    return (val !== null && !isNaN(parseFloat(val))) ? parseFloat(val) * 1000 : defaultValue;
+};
+
+const CONFIG = {
+    ...BASE_CONFIG,
+    dogInterval: getParamInMs('dogInterval', BASE_CONFIG.dogInterval),
+    photoInterval: getParamInMs('photoInterval', BASE_CONFIG.photoInterval),
+    transitionSpeed: getParamInMs('transitionSpeed', BASE_CONFIG.transitionSpeed)
+};
 
 let dogs = []; 
 let currentDogIndex = -1;
