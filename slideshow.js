@@ -32,6 +32,28 @@ let currentPhotoIndex = 0;
 let dogTimer = null;
 let photoTimer = null;
 
+// Helper to convert string to Title Case
+function toTitleCase(str) {
+    return str.toLowerCase().split(' ').map(word => {
+        return (word.charAt(0).toUpperCase() + word.slice(1));
+    }).join(' ');
+}
+
+// Helper to adjust font size if text overflows vertically
+function fitText(el) {
+    const parent = el.parentElement;
+    let currentSize = 7; // Start at 7rem
+    el.style.fontSize = currentSize + 'rem';
+    
+    // Max height for name section (approx 65% of screen height to leave room for ID/Location)
+    const maxHeight = window.innerHeight * 0.65;
+    
+    while (el.scrollHeight > maxHeight && currentSize > 2) {
+        currentSize -= 0.5;
+        el.style.fontSize = currentSize + 'rem';
+    }
+}
+
 // Function to fetch image URLs from your API
 async function fetchImageUrls() {
     try {
@@ -89,7 +111,14 @@ function updateDisplay(isNewDog = false) {
         container.style.opacity = '0';
         setTimeout(() => {
             if (photoUrl) imageDisplay.style.backgroundImage = `url('${photoUrl}')`;
-            dogName.textContent = dog.name;
+            
+            // Format name: Title Case and one word per line
+            const formattedName = toTitleCase(dog.name).split(' ').join('<br>');
+            dogName.innerHTML = formattedName;
+            
+            // Apply fit text logic
+            fitText(dogName);
+            
             dogLocation.textContent = dog.location;
             dogId.textContent = dog.id;
             
